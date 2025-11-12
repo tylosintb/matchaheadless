@@ -1,0 +1,23 @@
+local player = game:GetService("Players").LocalPlayer
+
+local function applyHeadless()
+    local character = player.Character
+    if character then
+        local head = character:FindFirstChild("Head")
+        if head then
+            head.Size = Vector3.new(0, 0, 0)
+            return true
+        end
+    end
+    return false
+end
+
+print("Applying headless effect...")
+applyHeadless()
+
+while true do
+    if player.Character then
+        applyHeadless()
+    end
+    wait(0.5)
+end
