@@ -1,0 +1,38 @@
+local player = game:GetService("Players").LocalPlayer
+
+local function applyHeadless()
+    local character = player.Character
+    if not character then return false end
+
+    local head = character:FindFirstChild("Head")
+    if head then
+        pcall(function() head.Size = Vector3.new(0, 0, 0) end)
+    end
+
+    for _, item in ipairs(character:GetChildren()) do
+        if item:IsA("Accessory") then
+            local handle = item:FindFirstChild("Handle")
+            if handle then
+                -- Size works reliably in Matcha; Transparency does not
+                pcall(function() handle.Size = Vector3.new(0, 0, 0) end)
+
+                local specialMesh = handle:FindFirstChildOfClass("SpecialMesh")
+                if specialMesh then
+                    pcall(function() specialMesh.Scale = Vector3.new(0, 0, 0) end)
+                end
+            end
+        end
+    end
+
+    return true
+end
+
+print("headless")
+applyHeadless()
+
+while true do
+    if player.Character then
+        applyHeadless()
+    end
+    wait(0.5)
+end
